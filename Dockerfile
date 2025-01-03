@@ -3,10 +3,13 @@ FROM alpine
 ENV WEBDAV_URL=http://localhost
 ENV WEBDAV_USERNAME=user
 ENV WEBDAV_PASSWORD=pass
+ENV QT_QPA_PLATFORM=offscreen 
+ENV QTWEBENGINE_DISABLE_SANDBOX=1
+ENV QT_QUICK_BACKEND=software
 
 ENV XDG_RUNTIME_DIR=/tmp/runtime-appuser
-RUN mkdir -p $XDG_RUNTIME_DIR && \
-    chmod 700 $XDG_RUNTIME_DIR && \
+RUN mkdir -p $XDG_RUNTIME_DIR \
+    chmod 700 $XDG_RUNTIME_DIR \
     chown appuser:appuser $XDG_RUNTIME_DIR
 
 RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
