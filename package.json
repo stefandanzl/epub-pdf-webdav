@@ -1,0 +1,19 @@
+{
+  "name": "epub-pdf-webdav",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stefandanzl/epub-pdf-webdav.git"
+  },
+  "author": "Stefan Danzl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stefandanzl/epub-pdf-webdav/issues"
+  },
+  "homepage": "https://github.com/stefandanzl/epub-pdf-webdav#readme",
+  "description": ""
+}
