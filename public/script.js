@@ -14,8 +14,8 @@ function updateStep(step, status) {
     }
 }
 
-// Set up SSE connection
-const eventSource = new EventSource('http://localhost:3000/status');
+const baseUrl = window.location.origin;
+const eventSource = new EventSource(`${baseUrl}/status`);
 
 eventSource.onmessage = (event) => {
     const update = JSON.parse(event.data);
@@ -43,7 +43,7 @@ convertBtn.addEventListener('click', async () => {
     convertBtn.disabled = true;
 
     try {
-        await fetch('http://localhost:3000/convert', {
+        await fetch(`${baseUrl}/convert`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ epubUrl })
