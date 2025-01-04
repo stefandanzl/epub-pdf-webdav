@@ -6,6 +6,8 @@ ENV WEBDAV_PASSWORD=pass
 ENV QT_QPA_PLATFORM=offscreen 
 ENV QTWEBENGINE_DISABLE_SANDBOX=1
 ENV QT_QUICK_BACKEND=software
+# see https://manual.calibre-ebook.com/generated/en/ebook-convert.html for commands
+ENV CONVERSION_COMMANDS="--output-profile default"
 
 ENV XDG_RUNTIME_DIR=/tmp/runtime-appuser
 RUN mkdir -p $XDG_RUNTIME_DIR \

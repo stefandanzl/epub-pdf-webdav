@@ -1,0 +1,27 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+  build:
+    cmds:
+      - docker build . -t ghcr.io/stefandanzl/epub-pdf-node:latest
+  push:
+    cmds:
+      - docker push ghcr.io/stefandanzl/epub-pdf-node:latest
+  run:
+    cmds:
+      - docker run --env-file=.env -p 3000:3000 ghcr.io/stefandanzl/epub-pdf-node:latest
+  all:
+    tasks:
+      - build
+      - push
+      - run
+      

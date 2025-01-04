@@ -55,8 +55,36 @@ app.post('/convert', async (req, res) => {
     const { epubUrl } = req.body;
     console.log('Received conversion request for:', epubUrl);
 
-    const fileName = path.basename(epubUrl);
-    const tempPath = path.join(TEMP_DIR, fileName);
+    const epubName = path.basename(epubUrl);
+
+    let safeFileName = "";
+
+    try {
+        // Decode the URL
+        const decodedUrl = decodeURIComponent(epubName);
+        
+        // Remove or replace potentially dangerous characters
+        const sanitized = decodedUrl
+            // Replace path separators and potentially dangerous characters
+            .replace(/[/\\:*?"<>|]/g, '_')
+            // Remove control characters
+            .replace(/[\x00-\x1F\x7F]/g, '')
+            // Trim whitespace
+            .trim()
+            // Limit filename length
+            .slice(0, 255);
+        
+        // Use path.basename to further sanitize and extract just the filename
+        //const safeFileName = path.basename(sanitized);
+        
+        // Return empty string if no valid filename remains
+        safeFileName = sanitized || 'unnamed_file';
+    } catch (error) {
+        console.error('Error sanitizing file path:', error);
+        safeFileName = 'unnamed_file';
+    }
+
+    const tempPath = path.join(TEMP_DIR, safeFileName);
     const pdfPath = tempPath.replace('.epub', '.pdf');
 
     try {
@@ -71,7 +99,7 @@ app.post('/convert', async (req, res) => {
         broadcast({ step: 3, status: 'converting' });
         console.log('Converting EPUB to PDF...');
         await new Promise((resolve, reject) => {
-            exec(`ebook-convert "${tempPath}" "${pdfPath}"`, (error) => {
+            exec(`ebook-convert "${tempPath}" "${pdfPath}" ${process.env.CONVERSION_COMMANDS}`, (error) => {
                 if (error) {
                     console.error('Conversion error:', error);
                     reject(error);
